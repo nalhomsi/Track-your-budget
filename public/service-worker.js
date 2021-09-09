@@ -1,9 +1,4 @@
-// TODO: implement service worker so that users can use the app offline. The SW
-// will need to cache static assets to display the app offline. Additionally,
-// the SW should cache transaction data, using the cached data as a fallback
-// when the app is used offline. HINT: You should use two caches. One for the
-// static assets such ass html, css, js, images, etc; and another cache for
-// the dynamic data from requests to routes beginning with "/api".
+
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
@@ -47,7 +42,7 @@ self.addEventListener("activate", (evt) => {
 });
 
 self.addEventListener("fetch", (evt) => {
-  // cache successful GET requests to the API
+
   if (evt.request.url.includes("/api/") && evt.request.method === "GET") {
     evt.respondWith(
       caches
@@ -55,7 +50,7 @@ self.addEventListener("fetch", (evt) => {
         .then((cache) => {
           return fetch(evt.request)
             .then((response) => {
-              // If the response was good, clone it and store it in the cache.
+              
               if (response.status === 200) {
                 cache.put(evt.request, response.clone());
               }
@@ -63,19 +58,15 @@ self.addEventListener("fetch", (evt) => {
               return response;
             })
             .catch(() => {
-              // Network request failed, try to get it from the cache.
-              return cache.match(evt.request);
+              
             });
         })
         .catch((err) => console.log(err))
-    );
 
-    // stop execution of the fetch event callback
     return;
   }
 
-  // if the request is not for the API, serve static assets using
-  // "offline-first" approach.
+
   evt.respondWith(
     caches.match(evt.request).then((response) => {
       return response || fetch(evt.request);
