@@ -25,7 +25,7 @@ self.addEventListener("install", (evt) => {
 });
 
 self.addEventListener("activate", (evt) => {
-  // remove old caches
+  
   evt.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
@@ -50,7 +50,7 @@ self.addEventListener("fetch", (evt) => {
         .then((cache) => {
           return fetch(evt.request)
             .then((response) => {
-              
+            
               if (response.status === 200) {
                 cache.put(evt.request, response.clone());
               }
@@ -58,15 +58,18 @@ self.addEventListener("fetch", (evt) => {
               return response;
             })
             .catch(() => {
-              
+             
+              return cache.match(evt.request);
             });
         })
         .catch((err) => console.log(err))
+    );
 
+    
     return;
   }
 
-
+ 
   evt.respondWith(
     caches.match(evt.request).then((response) => {
       return response || fetch(evt.request);
