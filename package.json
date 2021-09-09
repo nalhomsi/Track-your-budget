@@ -1,5 +1,5 @@
 {
-  "name": "budget-app",
+  "name": "track-your-budget",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryan-harris/pwa-budget-tracker.git"
+    "url": "git+https://github.com/nalhomsi/Track-your-budget"
   },
-  "author": "Ryan Harris <harris.ucla@gmail.com> (https://github.com/ryan-harris)",
+  "author": "Noor Alhomsi (https://github.com/nalhomsi)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ryan-harris/pwa-budget-tracker/issues"
+    "url": "https://github.com/nalhomsi/Track-your-budget/issues"
   },
-  "homepage": "https://github.com/ryan-harris/pwa-budget-tracker#readme",
+  "homepage": "https://github.com/nalhomsi/Track-your-budget#readme",
   "dependencies": {
     "compression": "^1.7.4",
     "express": "^4.17.1",
