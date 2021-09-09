@@ -1,6 +1,6 @@
 # Track Your Budget!
 
-Budget Tracker is a progressive web application that allows users to track their budgets by adding expenses and deposits to their budget through the "Add/Subtract Funds" buttons. They are able to add a transaction with or without a connection. When a user enters a transaction while offline, these transactions are stored in the indexedDB, and transferred to the database when the user comes back online.
+Track your budget is a PWA that allows users to add/subtract funds to their acccount whether they are online of offline.
 
 ## Screenshot:
 
@@ -11,6 +11,5 @@ https://nalhomsi.github.io/Track-your-budget/
 
 ## Deployed App: 
 
-https://immense-escarpment-03497.herokuapp.com/
-
+https://radiant-ridge-49938.herokuapp.com/
 
