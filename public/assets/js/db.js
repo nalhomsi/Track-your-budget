@@ -9,14 +9,14 @@ let db;
 const request = indexedDB.open("budget", 1);
 
 request.onupgradeneeded = (event) => {
-  event.target.result.createObjectStore("pending", {
-    keyPath: "id",
+  let database = event.target.result
+  database.createObjectStore("pending", {
     autoIncrement: true
   });
 };
 
 request.onerror = (err) => {
-  console.log(err.message);
+  console.log(err.target.errorCode);
 };
 
 request.onsuccess = (event) => {
@@ -30,14 +30,14 @@ request.onsuccess = (event) => {
 // This function is called in index.js
 // when the user creates a transaction while offline.
 function saveRecord(record) {
-  const transaction = db.transaction("pending", "readwrite");
+  const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
   store.add(record);
 }
 
 // called when user goes online to send transactions stored in db to server
 function checkDatabase() {
-  const transaction = db.transaction("pending", "readonly");
+  const transaction = db.transaction(["pending"], "readwrite");
   const store = transaction.objectStore("pending");
   const getAll = store.getAll();
 
@@ -53,7 +53,7 @@ function checkDatabase() {
       })
         .then((response) => response.json())
         .then(() => {
-          const transaction = db.transaction("pending", "readwrite");
+          const transaction = db.transaction(["pending"], "readwrite");
           const store = transaction.objectStore("pending");
           store.clear();
         });

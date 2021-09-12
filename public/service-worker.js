@@ -7,8 +7,7 @@ const FILES_TO_CACHE = [
   "/assets/js/db.js",
   "/assets/images/icons/icon-192x192.png",
   "/assets/images/icons/icon-512x512.png",
-  "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
-  "https://cdn.jsdelivr.net/npm/chart.js@2.8.0"
+  "/manifest.json"
 ];
 
 const CACHE_NAME = "static-cache-v1";
@@ -21,29 +20,29 @@ self.addEventListener("install", (evt) => {
     })
   );
 
-  self.skipWaiting();
+  // self.skipWaiting();
 });
 
-self.addEventListener("activate", (evt) => {
+// self.addEventListener("activate", (evt) => {
   
-  evt.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(
-        keyList.map((key) => {
-          if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      );
-    })
-  );
+//   evt.waitUntil(
+//     caches.keys().then((keyList) => {
+//       return Promise.all(
+//         keyList.map((key) => {
+//           if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+//             return caches.delete(key);
+//           }
+//         })
+//       );
+//     })
+//   );
 
-  self.clients.claim();
-});
+//   self.clients.claim();
+// });
 
 self.addEventListener("fetch", (evt) => {
 
-  if (evt.request.url.includes("/api/") && evt.request.method === "GET") {
+  if (evt.request.url.includes("/api/")) {
     evt.respondWith(
       caches
         .open(DATA_CACHE_NAME)
@@ -71,8 +70,15 @@ self.addEventListener("fetch", (evt) => {
 
  
   evt.respondWith(
-    caches.match(evt.request).then((response) => {
-      return response || fetch(evt.request);
-    })
+ fetch (evt.request).catch(()=>{ 
+   return caches.match(evt.request).then(response =>{ 
+     if (response){
+       return response 
+     }
+     else if (evt.request.headers.get ("accept").includes("text/html")){
+       return caches.match ("/")
+     }
+   })
+ })
   );
 });
